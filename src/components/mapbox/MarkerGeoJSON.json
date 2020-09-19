@@ -1,0 +1,66 @@
+{
+    "type":"FeatureCollection",
+    "features":[
+        {
+            "type": "Feature",
+            "properties": {
+                "id": 1,
+                "name": "Khu công nghệ cao",
+                "description": "Khu công nghệ cao|E1",
+                "icon":"theatre"
+            },
+            "geometry": {
+                "coordinates": [106.770524, 10.851386],
+                "type": "Point"
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": 2,
+                "name": "Căn tin",
+                "description": "Căn tin"
+            },
+            "geometry": {
+                "coordinates": [106.77106, 10.85135],
+                "type": "Point"
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": 3,
+                "name": "Synary",
+                "description": "Synary|GS25"
+            },
+            "geometry": {
+                "coordinates": [106.771138, 10.851022],
+                "type": "Point"
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": 4,
+                "name": "Photocopy",
+                "description": "Photocopy"
+            },
+            "geometry": {
+                "coordinates": [106.770904, 10.850893],
+                "type": "Point"
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": 5,
+                "name": "Tòa nhà trung tâm",
+                "description": "Tòa nhà trung tâm"
+            },
+            "geometry": {
+                "coordinates": [106.771973, 10.851025],
+                "type": "Point"
+            }
+        }
+    ]
+}

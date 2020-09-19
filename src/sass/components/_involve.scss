@@ -1,0 +1,69 @@
+.involve {
+    margin:1rem 0rem;
+    border:1px solid #F2F2F2;
+    padding: 1.7rem 0;
+    background-color:white;
+    border-radius: 10px;
+    .involve__menu {
+        margin-top:2rem;
+        font-size:3rem;
+        display:flex;
+        justify-content: space-around;
+        &__item1 {
+            padding: 1rem;
+            @include center-flex;
+            transition:background-color .2s;
+            cursor:pointer;
+            border-radius:10px;
+            &__icon-shopping {
+                @include items-list;
+                background-color:green;
+            }
+            &:hover{
+                background-color:#E6E6E6;
+            }
+        }
+        &__item2 {
+            padding: 1rem;
+            @include center-flex;
+            transition:background-color .2s;
+            cursor:pointer;
+            border-radius:10px;
+            &__icon-motorcycle {
+                @include items-list;
+                background-color:#01A9DB;
+            }
+            &:hover{
+                background-color:#E6E6E6;
+            }
+        }
+        &__item3 {
+            @include center-flex;
+            padding: 1rem;
+            transition:background-color .2s;
+            cursor:pointer;
+            border-radius:10px;
+            &__icon-utensils {
+                @include items-list;
+                background-color:#DF0101;
+            }
+            &:hover{
+                background-color:#E6E6E6;
+            }
+        }
+        &__item4 {
+            &:hover{
+                background-color:#E6E6E6;
+            }
+            border-radius:10px;
+            padding: 1rem;
+            @include center-flex;
+            transition:background-color .2s;
+            cursor:pointer;
+            &__icon-hotel {
+                @include items-list;
+                background-color:#FF8000;
+            }
+        }
+    }
+}

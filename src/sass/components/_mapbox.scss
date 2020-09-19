@@ -1,0 +1,22 @@
+.mapWrapper {
+    width: 100vw;
+    height: 100vh;
+}
+.mapboxgl-ctrl-top-right {
+    display:flex;
+    .mapboxgl-ctrl-group  {
+        transform:translateY(0.8rem);
+        width: 3rem;
+        height:3rem;
+        .mapboxgl-ctrl-geolocate {
+            width: 3rem;
+            height:3rem;
+        }
+        @include respond(tab-port) { // width < 900?
+            transform:translate(37rem,43rem);
+        }
+    }
+}
+.mapboxgl-popup-anchor-bottom {
+    background-color:transparent !important;
+}
