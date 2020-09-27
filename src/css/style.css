@@ -60,6 +60,9 @@ body {
     background-color: #E6E6E6;
     transition: all .3s;
     overflow: hidden; }
+    @media only screen and (max-width: 75em) {
+      .container-sidebar1 .sidebar1 {
+        background-color: white; } }
     @media only screen and (max-width: 56.25em) {
       .container-sidebar1 .sidebar1 {
         width: 100%;
@@ -136,7 +139,7 @@ body {
             outline: none; }
         .container-sidebar1 .sidebar1 .container-search .search__icon-search {
           top: 3.5rem;
-          left: 37rem;
+          left: 70%;
           position: absolute;
           z-index: 100;
           padding-right: 1.5rem;
@@ -144,8 +147,7 @@ body {
           cursor: pointer; }
           @media only screen and (max-width: 75em) {
             .container-sidebar1 .sidebar1 .container-search .search__icon-search {
-              top: 3.5rem;
-              left: 85%; } }
+              left: 75%; } }
           @media only screen and (max-width: 56.25em) {
             .container-sidebar1 .sidebar1 .container-search .search__icon-search {
               left: 85%; } }
@@ -158,15 +160,14 @@ body {
           z-index: 100;
           position: absolute;
           top: 3.5rem;
-          left: 42.5rem;
+          left: 80%;
           color: #819FF7;
           cursor: pointer; }
           .container-sidebar1 .sidebar1 .container-search .search__icon-direction:hover {
             color: #2E64FE; }
           @media only screen and (max-width: 75em) {
             .container-sidebar1 .sidebar1 .container-search .search__icon-direction {
-              top: 3.5rem;
-              left: 90%; } }
+              left: 85%; } }
           @media only screen and (max-width: 56.25em) {
             .container-sidebar1 .sidebar1 .container-search .search__icon-direction {
               left: 91%; } }
@@ -389,6 +390,8 @@ body {
 
 .mapboxgl-ctrl-top-right {
   display: flex; }
+  .mapboxgl-ctrl-top-right .mapboxgl-ctrl-directions {
+    transition: all .3s; }
   .mapboxgl-ctrl-top-right .mapboxgl-ctrl-group {
     transform: translateY(0.8rem);
     width: 3rem;
@@ -398,7 +401,7 @@ body {
       height: 3rem; }
     @media only screen and (max-width: 56.25em) {
       .mapboxgl-ctrl-top-right .mapboxgl-ctrl-group {
-        transform: translate(37rem, 43rem); } }
+        transform: translate(35rem, 40rem); } }
 
 .mapboxgl-popup-anchor-bottom {
   background-color: transparent !important; }
@@ -1007,15 +1010,17 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center; }
+  justify-content: center;
+  color: #2E9AFE; }
   .marker:hover {
     color: #FA5858; }
   .marker i {
+    color: inherit;
     font-size: 2.5rem;
-    transition: all .2s;
-    color: inherit; }
+    transition: all .2s; }
   .marker p {
-    color: #E6E6E6; }
+    font-size: 0.9rem;
+    color: black; }
 
 @keyframes click {
   from {

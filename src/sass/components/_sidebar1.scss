@@ -31,7 +31,7 @@
         transition:all .3s;
         overflow: hidden;
         @include respond(tab-land) { // width < 1200?
-            //1 rem = 9px, 9/16 = 50%
+            background-color:white;
         }
     
         @include respond(tab-port) { // width < 900?
@@ -131,13 +131,13 @@
                 }
                 &__icon-search {
                     top:3.5rem;
-                    left:37rem;
+                    left:70%;
+
                     position: absolute;
                     z-index: 100;
                     @include respond(tab-land) { // width < 1200?
                         //1 rem = 9px, 9/16 = 50%
-                        top:3.5rem;
-                        left:85%;
+                        left:75%;
                     }
                 
                     @include respond(tab-port) { // width < 900?
@@ -161,7 +161,7 @@
                     z-index:100;
                     position: absolute;
                     top:3.5rem;
-                    left:42.5rem;
+                    left:80%;
                     // padding-left:1.5rem;
                     // transform:translateX(-10rem);
                     color:#819FF7;
@@ -171,8 +171,7 @@
                     }
                     @include respond(tab-land) { // width < 1200?
                         //1 rem = 9px, 9/16 = 50%
-                        top:3.5rem;
-                        left:90%;
+                        left:85%;
                     }
                 
                     @include respond(tab-port) { // width < 900?

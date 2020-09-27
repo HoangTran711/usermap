@@ -7,6 +7,7 @@ import MyContext from '../../context/MyContext';
 mapboxgl.accessToken = "pk.eyJ1IjoidHJhbmhvYW5nMDcxMTIwIiwiYSI6ImNrZjFocDZzYzEzc2gycW9jZXkwMGlmZmcifQ.MPYuezjAocZaq6v4nvOEwA";
 function Mapbox() {
     const data = useContext(MyContext);
+    
     var mapWrapper = useRef(null);
     let tempStyle = (localStorage.getItem('mode'))?localStorage.getItem("mode"): "mapbox://styles/tranhoang071120/ckf2xr6kl05o21asu1omijgo9";
     const [mapStyle,setMapStyle] = useState(tempStyle);
@@ -15,48 +16,69 @@ function Mapbox() {
             container: mapWrapper,
             style: mapStyle,
             center: [106.770, 10.851],
-            zoom: 16.5
+            zoom: 17
         });
-
-    
-        data.geoLoc.features.map((a,index) => {
-            var html = "<div class='popup__container'>"+
-                    "<img src='https://picsum.photos/200/300' class='popup__image' /> "+
-                    `<h2 className='popup__heading'>${a.properties.name} </h2>`+
-                    `<p class='popup__text'>${a.properties.description}</p>` +
-                    "</div>";
-            var customPopUp = new mapboxgl.Popup(
-            {
-                anchor: 'bottom',   // To show popup on top
-                offset: { 'bottom': [0, -10] },  // To prevent popup from over shadowing the marker.
-                closeOnClick: false   // To prevent close on mapClick.
+        
+        
+            data.geoLoc.features.map((a,index) => {
+                var html = "<div class='popup__container'>"+
+                        "<img src='https://picsum.photos/200/300' class='popup__image' /> "+
+                        `<h2 className='popup__heading'>${a.properties.name} </h2>`+
+                        `<p class='popup__text'>${a.properties.description}</p>` +
+                        "</div>";
+                var customPopUp = new mapboxgl.Popup(
+                {
+                    anchor: 'bottom',   // To show popup on top
+                    offset: { 'bottom': [0, -10] },  // To prevent popup from over shadowing the marker.
+                    closeOnClick: false   // To prevent close on mapClick.
+                }
+                ).setHTML(html); // You can set any valid HTML.
+                var el = document.createElement('div');
+                let t = document.createElement('p');
+                let b = document.createElement('i');
+                b.className = 'fas fa-map-marker';
+                b.id =a.properties.id;
+                t.innerHTML = a.properties.name;
+                t.className="text__marker";
+                el.className="marker";
+                el.id=a.properties.name;
+                el.appendChild(b);
+                el.appendChild(t);
+                const marker = new mapboxgl.Marker(el)
+                .setLngLat(a.geometry.coordinates)
+                .setPopup(customPopUp) // sets a popup on this marker
+                .addTo(map);
+                const markerDiv = marker.getElement();
+                markerDiv.addEventListener('mouseenter', () => marker.togglePopup());
+                markerDiv.addEventListener('mouseleave', () => customPopUp.remove());
+            })
+            if(mapStyle !== "mapbox://styles/tranhoang071120/ckf2xr6kl05o21asu1omijgo9") {
+                let node = document.querySelectorAll(".text__marker");
+                for(let i = 0; i < node.length; i++ ){
+                    if(mapStyle !== "mapbox://styles/tranhoang071120/ckf2xr6kl05o21asu1omijgo9") {
+                        node[i].style.color="white";
+                    }
+                }
             }
-            ).setHTML(html); // You can set any valid HTML.
-            var el = document.createElement('div');
-            let t = document.createElement('p');
-            let b = document.createElement('i');
-            b.className = 'fas fa-map-marker';
-            b.id =a.properties.name;
-            t.innerHTML = a.properties.name;
-            el.className="marker";
-            el.id="marker";
-            el.appendChild(b);
-            el.appendChild(t);
-            const marker = new mapboxgl.Marker(el)
-            .setLngLat(a.geometry.coordinates)
-            .setPopup(customPopUp) // sets a popup on this marker
-            .addTo(map);
-            const markerDiv = marker.getElement();
-            markerDiv.addEventListener('mouseenter', () => marker.togglePopup());
-            markerDiv.addEventListener('mouseleave', () => customPopUp.remove());
-        })
-        map.addControl(
-            new mapboxgl.GeolocateControl({
+        map.addControl(new mapboxgl.GeolocateControl({
                 positionOptions: {
                     enableHighAccuracy: true
                 },
-                trackUserLocation: true
-            }));
+                trackUserLocation: true,
+                showUserLocation:true
+            })
+        )
+            if ("geolocation" in navigator) { 
+                navigator.geolocation.getCurrentPosition(position => { 
+                    data.setUserLocation({
+                        geometry:{
+                            coordinates:[position.coords.longitude,position.coords.latitude]
+                        }
+                    })
+                }); 
+            } else { 
+
+            }
         const directions = new MapboxDirections({
             accessToken: mapboxgl.accessToken,
             unit: 'metric',
@@ -123,7 +145,7 @@ function Mapbox() {
             labelLayerId);
         })
         map.addControl(directions, 'top-right');
-    },[])
+    },[data.geoLoc])
     return (
         <React.Fragment>
             <div 

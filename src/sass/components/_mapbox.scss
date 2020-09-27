@@ -4,6 +4,9 @@
 }
 .mapboxgl-ctrl-top-right {
     display:flex;
+    .mapboxgl-ctrl-directions {
+        transition:all .3s;
+    }
     .mapboxgl-ctrl-group  {
         transform:translateY(0.8rem);
         width: 3rem;
@@ -13,7 +16,7 @@
             height:3rem;
         }
         @include respond(tab-port) { // width < 900?
-            transform:translate(37rem,43rem);
+            transform:translate(35rem,40rem);
         }
     }
 }

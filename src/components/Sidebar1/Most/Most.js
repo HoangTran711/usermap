@@ -6,6 +6,9 @@ function Most({mostSearched,height,id}) {
     const data = useContext(MyContext);
     const [most,setMost] = useState(mostSearched);
     const [height1,setHeight1] = useState(height);
+    useEffect(() => {
+        setMost(mostSearched);
+    },[mostSearched])
     useEffect(()=>{
         if(id === 'start') {
             if(data.start.properties.name !== null) {
@@ -27,6 +30,39 @@ function Most({mostSearched,height,id}) {
     useEffect(() => {
         setHeight1(height);
     },[height])
+    useEffect (() => {
+        if(data.userLocation.geometry.coordinates.length ===2) {
+            let temp = [];
+            temp.push({
+                type:"Feature",
+                properties:{
+                    id:0,
+                    name:"Vị trí của tôi",
+                },
+                geometry:{
+                    coordinates:data.userLocation.geometry.coordinates
+                }
+            })
+            for(let i = 0 ; i < mostSearched.length ; i++) {
+                temp.push(mostSearched[i])
+            }
+            setMost(temp);
+            let t = mostSearched.find(a => a.properties.id === 0);
+            if(!t) {
+                mostSearched.push({
+                    type:"Feature",
+                    properties:{
+                        id:0,
+                        name:"Vị trí của tôi",
+                    },
+                    geometry:{
+                        coordinates:data.userLocation.geometry.coordinates
+                    }
+                })
+            }
+            
+        }
+    },[])
     return (
         <div style={{
             height:height1
@@ -37,32 +73,72 @@ function Most({mostSearched,height,id}) {
                         if(index <=3) {
                             return (
                                 <div key={index} onClick={() => {
+                                    fetch('http://localhost:8080/updateQuantity',{
+                                        headers:{
+                                            "Content-Type":"application/json"
+                                        },
+                                        method:"POST",
+                                        body:JSON.stringify({
+                                            arr:[{
+                                                id:a.properties.id,
+                                                qty_search: 1
+                                            }]
+                                        })
+                                    }).then(res => res.json())
+                                    .then(result => {})
+                                    .catch(err => console.log(err)) 
                                     if(id === 'start') {
                                         data.setStart(a);
-                                        if(data.prevIdStart === null) {
-                                            document.getElementById(a.properties.name).style.animation = "click .5s infinite";
-                                            document.getElementById(a.properties.name).style.color ="red";
-                                            data.setPrevIdStart(a.properties.name);
+                                        if(data.prevIdStart.length  === 0) {
+                                            if(document.getElementById(a.properties.id)) {
+                                                
+                                                document.getElementById(a.properties.id).style.animation = "click .5s infinite";
+                                                document.getElementById(a.properties.id).style.color ="red";
+                                                let temp = data.prevIdStart;
+                                                temp.push(a.properties.id);
+                                                data.setPrevIdStart(temp);
+                                                console.log(a.properties.id);
+                                            }
+                                            
                                         } else {
-                                            document.getElementById(data.prevIdStart).style.animation = "none";
-                                            document.getElementById(data.prevIdStart).style.color ="inherit";
-                                            document.getElementById(a.properties.name).style.animation = "click .5s infinite";
-                                            document.getElementById(a.properties.name).style.color ="red";
-                                            data.setPrevIdStart(a.properties.name);
+                                            if(document.getElementById(data.prevIdStart[data.prevIdStart.length -1])) {
+                                                document.getElementById(data.prevIdStart[data.prevIdStart.length -1]).style.animation = "none";
+                                                document.getElementById(data.prevIdStart[data.prevIdStart.length -1]).style.color ="inherit";
+                                            }
+                                            if(document.getElementById(a.properties.id)) {
+                                                document.getElementById(a.properties.id).style.animation = "click .5s infinite";
+                                                document.getElementById(a.properties.id).style.color ="red";
+                                                let temp = data.prevIdStart;
+                                                temp.push(a.properties.id);
+                                                data.setPrevIdStart(temp);
+                                            }
+                                            
                                         }
                                         data.direction.actions.setOriginFromCoordinates(a.geometry.coordinates);
                                     } else {
                                         data.setEnd(a);
-                                        if(data.prevIdEnd === null) {
-                                            document.getElementById(a.properties.name).style.animation = "click .5s infinite";
-                                            document.getElementById(a.properties.name).style.color ="red";
-                                            data.setPrevIdEnd(a.properties.name);
+                                        if(data.prevIdEnd.length  === 0) {
+                                            if(document.getElementById(a.properties.id)) {
+                                                document.getElementById(a.properties.id).style.animation = "click .5s infinite";
+                                                document.getElementById(a.properties.id).style.color ="red";
+                                                let temp = data.prevIdEnd;
+                                                temp.push(a.properties.id);
+                                                data.setPrevIdEnd(temp);
+                                            }
+                                            
                                         } else {
-                                            document.getElementById(data.prevIdEnd).style.animation = "none";
-                                            document.getElementById(data.prevIdEnd).style.color ="inherit";
-                                            document.getElementById(a.properties.name).style.animation = "click .5s infinite";
-                                            document.getElementById(a.properties.name).style.color ="red";
-                                            data.setPrevIdEnd(a.properties.name);
+                                            if(document.getElementById(data.prevIdEnd[data.prevIdEnd.length -1])) {
+                                                document.getElementById(data.prevIdEnd[data.prevIdEnd.length -1]).style.animation = "none";
+                                                document.getElementById(data.prevIdEnd[data.prevIdEnd.length -1]).style.color ="inherit";
+                                            }
+                                            if(document.getElementById(a.properties.id)) {
+                                                document.getElementById(a.properties.id).style.animation = "click .5s infinite";
+                                                document.getElementById(a.properties.id).style.color ="red";
+                                                let temp = data.prevIdEnd;
+                                                temp.push(a.properties.id);
+                                                data.setPrevIdEnd(temp);
+                                            }
+                                            
                                         }
                                         data.direction.actions.setDestinationFromCoordinates(a.geometry.coordinates);
                                     }

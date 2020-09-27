@@ -1,10 +1,11 @@
-import React,{useContext} from 'react';
+import React,{useContext,useState} from 'react';
 import MyContext  from '../../context/MyContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMapMarkedAlt,faSatellite, faMoon,faSun } from '@fortawesome/free-solid-svg-icons';
+import { faMapMarkedAlt,faSatellite, faMoon,faSun,faDirections,faMapSigns } from '@fortawesome/free-solid-svg-icons';
 
 function Menu() {
     const data = useContext(MyContext);
+    const [direction,setDirection] = useState(true)
     const clickClose = () => {
         document.querySelector(".menu").style.width = "0px";
         setTimeout(() => {
@@ -21,6 +22,18 @@ function Menu() {
             localStorage.setItem('mode', "mapbox://styles/tranhoang071120/ckf2xr6kl05o21asu1omijgo9");
             document.location.reload();
         }
+    }
+    const turnDirection = () => {
+        if(document.querySelector(".mapboxgl-ctrl-directions").style.opacity !== '0') {
+            document.querySelector(".mapboxgl-ctrl-directions").style.opacity='0';
+            document.querySelector(".mapboxgl-ctrl-directions").style.visibility = "hidden";
+            setDirection(false);
+        } else {
+            setDirection(true);
+            document.querySelector(".mapboxgl-ctrl-directions").style.opacity=1;
+            document.querySelector(".mapboxgl-ctrl-directions").style.visibility = "visible";
+        }
+        
     }
     return (
         <div className="container-menu" onClick={clickClose}>
@@ -41,16 +54,16 @@ function Menu() {
                         <div className="menu__list__item-icon">
                             <FontAwesomeIcon icon={faSatellite}/>
                         </div>
-                        <a className="menu__list__item-link" href={(data.start.properties.name !== null && data.start.properties.name !== '')?`https://map.harrisstudio.org/virtualtour/index.html?name=${data.start.properties.name}`:"https://map.harrisstudio.org/virtualtour/index.html?name=%22C%E1%BB%95ng%20ch%C3%ADnh%22"} target="_blank">Vệ tinh</a>
+                        <a className="menu__list__item-link" href={(data.start.properties.name !== null && data.start.properties.name !== '')?`https://map.harrisstudio.org/virtualtour/index.html?name="${data.start.properties.name}"`:"https://map.harrisstudio.org/virtualtour/index.html?name=%22C%E1%BB%95ng%20ch%C3%ADnh%22"} target="_blank">Vệ tinh</a>
                     </li>
-                    <li className="menu__list__item">
+                    <li className="menu__list__item" onClick={turnMode}>
                         {(localStorage.getItem('mode') === 'mapbox://styles/tranhoang071120/ckf2xr6kl05o21asu1omijgo9' || (localStorage.getItem('mode')!== 'mapbox://styles/tranhoang071120/ckf8g7uwq5h7919pfzhlxzwqe' && localStorage.getItem('mode')!== 'mapbox://styles/tranhoang071120/ckf2xr6kl05o21asu1omijgo9'))?
                         (
                             <React.Fragment>
                                 <div className="menu__list__item-icon">
                                     <FontAwesomeIcon icon={faMoon}/>
                                 </div>
-                                <p onClick={turnMode} className="menu__list__item-text">Chế độ tối</p>
+                                <p  className="menu__list__item-text">Chế độ tối</p>
                             </React.Fragment>
                         ):
                         (
@@ -58,9 +71,26 @@ function Menu() {
                                 <div className="menu__list__item-icon">
                                     <FontAwesomeIcon icon={faSun}/>
                                 </div>
-                                <p onClick={turnMode} className="menu__list__item-text">Chế độ sáng</p>
+                                <p className="menu__list__item-text">Chế độ sáng</p>
                             </React.Fragment>
                         )
+                        }
+                    </li>
+                    <li className="menu__list__item" onClick={turnDirection}>
+                        {
+                            (direction)?
+                            (<React.Fragment>
+                                <div className="menu__list__item-icon">
+                                    <FontAwesomeIcon icon={faMapSigns}/>
+                                </div>
+                                <p className="menu__list__item-text">Tắt chỉ đường</p>
+                            </React.Fragment>):
+                            <React.Fragment>
+                                <div className="menu__list__item-icon">
+                                    <FontAwesomeIcon icon={faDirections}/>
+                                </div>
+                                <p className="menu__list__item-text">Bật chỉ đường</p>
+                            </React.Fragment>
                         }
                     </li>
                 </ul>

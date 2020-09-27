@@ -31,7 +31,7 @@ export class WeatherContainer extends React.Component {
     
   }
   getWeather = async () => {
-    const api_call = await fetch(`http://api.openweathermap.org/data/2.5/weather?id=1566083&appid=${API_key}`);
+    const api_call = await fetch(`https://api.openweathermap.org/data/2.5/weather?id=1566083&appid=${API_key}`);
     const response = await api_call.json();
     this.setState({
       city:response.name,

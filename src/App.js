@@ -10,98 +10,14 @@ function App() {
   const [mode,setMode] = useState(0);
   const [dataApi, setDataApi] = useState(null);
   const [isLoading,setLoading] = useState(false);
-  const [prevIdEnd, setPrevIdEnd] = useState(null);
-  const [prevIdStart,setPrevIdStart] = useState(null);
-  const [geoLoc, setGeoLoc] = useState({
-    "type":"FeatureCollection",
-    "features":[
-        
-        {
-            "type": "Feature",
-            "properties": {
-                "id": 1,
-                "name": "Khu công nghệ cao",
-                "description": "Khu công nghệ cao E1 dùng để học những môn đại cương",
-                "image":"https://ibb.co/xX0qw9f"
-            },
-            "geometry": {
-                "coordinates": [106.770524, 10.851386],
-                "type": "Point",
-                
-            }
-        },
-        {
-            "type": "Feature",
-            "properties": {
-                "id": 2,
-                "name": "Căn tin",
-                "description": "Căn tin là nơi bạn có thể ăn trưa hoặc mua nước uống",
-                "image":"https://ibb.co/xX0qw9f"
-            },
-            "geometry": {
-                "coordinates": [106.77106, 10.85135],
-                "type": "Point",
-                
-            }
-        },
-        {
-            "type": "Feature",
-            "properties": {
-                "id": 3,
-                "name": "Synary",
-                "description": "Synary là nơi ngồi học hoặc nói chuyện",
-                "image":"https://ibb.co/xX0qw9f"
-            },
-            "geometry": {
-                "coordinates": [106.771138, 10.851022],
-                "type": "Point",
-                
-            }
-        },
-        {
-            "type": "Feature",
-            "properties": {
-                "id": 4,
-                "name": "Photocopy",
-                "description": "Photocopy",
-                "image":"https://ibb.co/xX0qw9f"
-            },
-            "geometry": {
-                "coordinates": [106.770904, 10.850893],
-                "type": "Point",
-                
-            }
-        },
-        {
-            "type": "Feature",
-            "properties": {
-                "id": 5,
-                "name": "Tòa nhà trung tâm",
-                "description": "Tòa nhà trung tâm",
-                "image":"https://ibb.co/xX0qw9f"
-            },
-            "geometry": {
-                "coordinates": [106.771973, 10.851025],
-                "type": "Point",
-                
-            }
-        },
-        {
-          "type": "Feature",
-          "properties": {
-              "id": 6,
-              "name": "Ministop",
-              "description": "Ministop là chỗ để mua đồ ăn, đồ uống,kem, có chỗ để học tập",
-              "image":"https://ibb.co/xX0qw9f"
-          },
-          "geometry": {
-              "coordinates": [106.771403,10.850104],
-              "type": "Point",
-              
-          }
-      }
-        
-    ]
+  const [prevIdEnd, setPrevIdEnd] = useState([]);
+  const [prevIdStart,setPrevIdStart] = useState([]);
+  const [eventLis,setEventLis] = useState(null);
+  const [geoLoc, setGeoLoc] = useState(null);
+const [userLocation,setUserLocation] = useState({
+  geometry:{
+      coordinates:[]
+  }
 });
   const [start,setStart] = useState({
     type:"Feature",
@@ -129,6 +45,24 @@ function App() {
   });
   const [direction , setDirection] = useState(null);
   useEffect(() => {
+    fetch('http://localhost:8080/')
+    .then(res => res.json())
+    .then (result => {
+      for(let i = 0; i < result.features.length; i++) {
+        for(let j = i+1; j < result.features.length; j++) {
+          if(result.features[i].properties.qty_search < result.features[j].properties.qty_search) {
+            let temp = result.features[i];
+            result.features[i] = result.features[j];
+            result.features[j] = temp;
+          }
+        }
+      }
+      console.log(result.features);
+      setGeoLoc({
+        type:"FeatureCollection",
+        features: result.features
+      })
+    })
     setInterval(() => {
       let temp = JSON.parse(window.localStorage.getItem('data'));
       let tempStart = JSON.parse(window.localStorage.getItem('start'));
@@ -139,12 +73,6 @@ function App() {
       }
       
         if(tempStart) {
-          console.log(prevIdStart);
-          if(prevIdStart) {
-              document.getElementById(prevIdStart).style.animation = "none";
-              document.getElementById(prevIdStart).style.color ="inherit";
-            }
-          setPrevIdStart(null);
           let t = tempStart.map(a => Math.round(a * 10000)/10000 )
           setStart({
             ...start,
@@ -156,11 +84,6 @@ function App() {
           
         }
         if(tempEnd) {
-          if(prevIdEnd) {
-            document.getElementById(prevIdEnd).style.animation = "none";
-            document.getElementById(prevIdEnd).style.color ="inherit";
-          }
-        setPrevIdEnd(null);
           let t = tempEnd.map(a => Math.round(a * 10000)/10000 )
           setEnd({
             ...end,
@@ -197,16 +120,20 @@ function App() {
       prevIdStart:prevIdStart,
       prevIdEnd:prevIdEnd,
       setPrevIdEnd:setPrevIdEnd,
-      setPrevIdStart:setPrevIdStart
+      setPrevIdStart:setPrevIdStart,
+      eventLis:eventLis,
+      setEventLis:setEventLis,
+      userLocation:userLocation,
+      setUserLocation:setUserLocation
     }} >
-      <div className="container">
+      {(geoLoc)?<div className="container">
         {(isLoading)?<div className="container-spinner">
           <div className="loader"></div>
         </div>:null}
         <Sidebar1 />
         <Menu/>
         <MapBox/>
-      </div>
+      </div>:null}
     </MyContext.Provider>
   );
 }
