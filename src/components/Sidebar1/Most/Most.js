@@ -73,7 +73,7 @@ function Most({mostSearched,height,id}) {
                         if(index <=3) {
                             return (
                                 <div key={index} onClick={() => {
-                                    fetch('http://localhost:8080/updateQuantity',{
+                                    fetch('http://localhost:8080/admin/updateQuantity',{
                                         headers:{
                                             "Content-Type":"application/json"
                                         },

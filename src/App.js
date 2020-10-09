@@ -44,8 +44,42 @@ const [userLocation,setUserLocation] = useState({
     }
   });
   const [direction , setDirection] = useState(null);
+  const [test,setTest] = useState(null);
   useEffect(() => {
-    fetch('http://localhost:8080/')
+    var t;
+    if(geoLoc) {
+      clearInterval(t);
+    } else {
+      t = setInterval(() => {
+        fetch('http://localhost:8080/admin')
+        .then(res => res.json())
+        .then (result => {
+          for(let i = 0; i < result.features.length; i++) {
+            for(let j = i+1; j < result.features.length; j++) {
+              if(result.features[i].properties.qty_search < result.features[j].properties.qty_search) {
+                let temp = result.features[i];
+                result.features[i] = result.features[j];
+                result.features[j] = temp;
+              }
+            }
+          }
+          console.log(result.features);
+          setGeoLoc({
+            type:"FeatureCollection",
+            features: result.features
+          })
+        })
+      },1000)
+      setTest(t);
+    }
+    return () => {
+      clearInterval(t);
+    }
+    
+
+  },[geoLoc])
+  useEffect(() => {
+    fetch('http://localhost:8080/admin')
     .then(res => res.json())
     .then (result => {
       for(let i = 0; i < result.features.length; i++) {
