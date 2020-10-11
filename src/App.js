@@ -50,7 +50,7 @@ function App() {
       clearInterval(t);
     } else {
       t = setInterval(() => {
-        fetch("https://utemap.com/admin")
+        fetch("./admin")
           .then((res) => res.json())
           .then((result) => {
             for (let i = 0; i < result.features.length; i++) {
@@ -79,7 +79,7 @@ function App() {
     };
   }, [geoLoc]);
   useEffect(() => {
-    fetch("https://utemap.com/admin")
+    fetch("./admin")
       .then((res) => res.json())
       .then((result) => {
         for (let i = 0; i < result.features.length; i++) {
