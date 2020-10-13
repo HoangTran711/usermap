@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useContext } from "react";
-import "./css/style.css";
-import Sidebar1 from "./components/Sidebar1/Sidebar1";
-import MyContext from "./context/MyContext";
-import MapBox from "./components/mapbox/Mapbox";
-import Menu from "./components/Menu/Menu";
+import React, { useState, useEffect, useContext } from 'react';
+import './css/style.css';
+import Sidebar1 from './components/Sidebar1/Sidebar1';
+import MyContext from './context/MyContext';
+import MapBox from './components/mapbox/Mapbox';
+import Menu from './components/Menu/Menu';
+import Back from './components/Back/Back';
 
 function App() {
   const [mode, setMode] = useState(0);
@@ -19,7 +20,7 @@ function App() {
     },
   });
   const [start, setStart] = useState({
-    type: "Feature",
+    type: 'Feature',
     properties: {
       id: null,
       name: null,
@@ -31,7 +32,7 @@ function App() {
     },
   });
   const [end, setEnd] = useState({
-    type: "Feature",
+    type: 'Feature',
     properties: {
       id: null,
       name: null,
@@ -50,7 +51,7 @@ function App() {
       clearInterval(t);
     } else {
       t = setInterval(() => {
-        fetch("./admin")
+        fetch('http://localhost:8080/admin')
           .then((res) => res.json())
           .then((result) => {
             for (let i = 0; i < result.features.length; i++) {
@@ -67,7 +68,7 @@ function App() {
             }
             console.log(result.features);
             setGeoLoc({
-              type: "FeatureCollection",
+              type: 'FeatureCollection',
               features: result.features,
             });
           });
@@ -79,7 +80,7 @@ function App() {
     };
   }, [geoLoc]);
   useEffect(() => {
-    fetch("./admin")
+    fetch('./admin')
       .then((res) => res.json())
       .then((result) => {
         for (let i = 0; i < result.features.length; i++) {
@@ -96,17 +97,17 @@ function App() {
         }
         console.log(result.features);
         setGeoLoc({
-          type: "FeatureCollection",
+          type: 'FeatureCollection',
           features: result.features,
         });
       });
     setInterval(() => {
-      let temp = JSON.parse(window.localStorage.getItem("data"));
-      let tempStart = JSON.parse(window.localStorage.getItem("start"));
-      let tempEnd = JSON.parse(window.localStorage.getItem("end"));
+      let temp = JSON.parse(window.localStorage.getItem('data'));
+      let tempStart = JSON.parse(window.localStorage.getItem('start'));
+      let tempEnd = JSON.parse(window.localStorage.getItem('end'));
       if (temp) {
         setDataApi(temp);
-        window.localStorage.removeItem("data");
+        window.localStorage.removeItem('data');
       }
 
       if (tempStart) {
@@ -117,7 +118,7 @@ function App() {
             coordinates: t,
           },
         });
-        window.localStorage.removeItem("start");
+        window.localStorage.removeItem('start');
       }
       if (tempEnd) {
         let t = tempEnd.map((a) => Math.round(a * 10000) / 10000);
@@ -127,7 +128,7 @@ function App() {
             coordinates: t,
           },
         });
-        window.localStorage.removeItem("end");
+        window.localStorage.removeItem('end');
       }
     }, 1000);
     setLoading(true);
@@ -135,6 +136,7 @@ function App() {
       setLoading(false);
     }, 3000);
   }, []);
+
   return (
     <MyContext.Provider
       value={{
@@ -169,6 +171,7 @@ function App() {
               <div className="loader"></div>
             </div>
           ) : null}
+          <Back />
           <Sidebar1 />
           <Menu />
           <MapBox />

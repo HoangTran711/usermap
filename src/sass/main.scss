@@ -1,38 +1,61 @@
-@import "./abstract/mixin";
-@import "./abstract/variable";
+@import './abstract/mixin';
+@import './abstract/variable';
 
-@import "./base/animation";
-@import "./base/base";
-@import "./base/typography";
+@import './base/animation';
+@import './base/base';
+@import './base/typography';
 
-@import "./components/sidebar1";
-@import "./components/involve";
-@import "./components/direction";
-@import "./components/most";
-@import "./components/spinner";
-@import "./components/mapbox";
-@import "./components/staticDirection";
-@import "./components/popup-map";
-@import "./components/menu";
-@import "./components/marker";
-
+@import './components/sidebar1';
+@import './components/involve';
+@import './components/direction';
+@import './components/most';
+@import './components/spinner';
+@import './components/mapbox';
+@import './components/staticDirection';
+@import './components/popup-map';
+@import './components/menu';
+@import './components/marker';
 
 .container {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    width:100%;
-    height:100%;
-    @include respond(tab-land) { // width < 1200?
-        //1 rem = 9px, 9/16 = 50%
-        
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  .back {
+    bottom: 3%;
+    right: 0.5%;
+    background-color: white;
+    position: absolute;
+    z-index: 10000000;
+    padding: 1rem;
+    font-size: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2), 0 3px 5px 0 rgba(0, 0, 0, 0.19);
+    cursor: pointer;
+    &:hover {
+      background-color: #f2f2f2;
     }
+    @include respond(tab-port) {
+      width: 5rem;
+      bottom: 44.2%;
+      left: 10%;
+      font-size: 15px;
+      padding: 1.5rem;
+      border-radius: 5px;
+    }
+  }
+  @include respond(tab-land) {
+    // width < 1200?
+    //1 rem = 9px, 9/16 = 50%
+  }
 
-    @include respond(tab-port) { // width < 900?
-            //1 rem = 8px, 8/16 = 50%
-    }
-    
-    @include respond(big-desktop) {
-        display:none; //1rem = 12, 12/16
-    }
+  @include respond(tab-port) {
+    // width < 900?
+    //1 rem = 8px, 8/16 = 50%
+  }
+
+  @include respond(big-desktop) {
+    display: none; //1rem = 12, 12/16
+  }
 }

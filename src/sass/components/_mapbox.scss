@@ -1,25 +1,34 @@
 .mapWrapper {
-    width: 100vw;
-    height: 100vh;
+  width: 100vw;
+  height: 100vh;
 }
 .mapboxgl-ctrl-top-right {
-    display:flex;
-    .mapboxgl-ctrl-directions {
-        transition:all .3s;
+  display: flex;
+  .mapboxgl-ctrl-directions {
+    display: none;
+    transition: all 0.3s;
+  }
+  .mapboxgl-ctrl-group {
+    display: block;
+    transform: translate(0.2, 0.8rem);
+    width: 4rem;
+    height: 4rem;
+    .mapboxgl-ctrl-geolocate {
+      width: 4rem;
+      height: 4rem;
+      @include respond(tab-port) {
+        width: 5rem;
+        height: 5rem;
+      }
     }
-    .mapboxgl-ctrl-group  {
-        transform:translateY(0.8rem);
-        width: 3rem;
-        height:3rem;
-        .mapboxgl-ctrl-geolocate {
-            width: 3rem;
-            height:3rem;
-        }
-        @include respond(tab-port) { // width < 900?
-            transform:translate(35rem,40rem);
-        }
+    @include respond(tab-port) {
+      // width < 900?
+      width: 5rem;
+      height: 5rem;
+      transform: translate(-2rem, 40rem);
     }
+  }
 }
 .mapboxgl-popup-anchor-bottom {
-    background-color:transparent !important;
+  background-color: transparent !important;
 }

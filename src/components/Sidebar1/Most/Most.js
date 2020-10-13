@@ -1,19 +1,19 @@
-import React, { useState, useEffect, useContext } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClock } from "@fortawesome/free-regular-svg-icons";
-import MyContext from "../../../context/MyContext";
+import React, { useState, useEffect, useContext } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faClock } from '@fortawesome/free-regular-svg-icons';
+import MyContext from '../../../context/MyContext';
 function stringToASCII(str) {
   try {
     return str
-      .replace(/[àáảãạâầấẩẫậăằắẳẵặ]/g, "a")
-      .replace(/[èéẻẽẹêềếểễệ]/g, "e")
-      .replace(/[đ]/g, "d")
-      .replace(/[ìíỉĩị]/g, "i")
-      .replace(/[òóỏõọôồốổỗộơờớởỡợ]/g, "o")
-      .replace(/[ùúủũụưừứửữự]/g, "u")
-      .replace(/[ỳýỷỹỵ]/g, "y");
+      .replace(/[àáảãạâầấẩẫậăằắẳẵặ]/g, 'a')
+      .replace(/[èéẻẽẹêềếểễệ]/g, 'e')
+      .replace(/[đ]/g, 'd')
+      .replace(/[ìíỉĩị]/g, 'i')
+      .replace(/[òóỏõọôồốổỗộơờớởỡợ]/g, 'o')
+      .replace(/[ùúủũụưừứửữự]/g, 'u')
+      .replace(/[ỳýỷỹỵ]/g, 'y');
   } catch {
-    return "";
+    return '';
   }
 }
 function Most({ mostSearched, height, id }) {
@@ -27,7 +27,7 @@ function Most({ mostSearched, height, id }) {
     let dem = 0;
     let isFindRoom = false;
     let items = [];
-    let text = data[id === "start" ? "start" : "end"].properties.name;
+    let text = data[id === 'start' ? 'start' : 'end'].properties.name;
     if (text) {
       for (
         let i = 0;
@@ -37,7 +37,7 @@ function Most({ mostSearched, height, id }) {
         !isFindRoom;
         i++
       ) {
-        let nameArray = mostSearched[i].properties.description.split("|");
+        let nameArray = mostSearched[i].properties.description.split('|');
         for (let j = 0; j < nameArray.length && dem <= 15; j++) {
           if (
             stringToASCII(nameArray[j].toLowerCase()).indexOf(
@@ -62,17 +62,17 @@ function Most({ mostSearched, height, id }) {
                 .indexOf(text.toLowerCase()) != -1 ||
                 floorArray[fl].formalRooms
                   ?.toLowerCase()
-                  .split(".")
-                  .join("-")
+                  .split('.')
+                  .join('-')
                   .indexOf(text.toLowerCase()) != -1) &&
-                (text.indexOf(".") != -1 || text.indexOf("-") != -1)) ||
+                (text.indexOf('.') != -1 || text.indexOf('-') != -1)) ||
               text
                 .toLowerCase()
                 .indexOf(floorArray[fl].formalRooms?.toLowerCase()) != -1 ||
               text
                 .toLowerCase()
                 .indexOf(
-                  floorArray[fl].formalRooms?.toLowerCase().split(".").join("-")
+                  floorArray[fl].formalRooms?.toLowerCase().split('.').join('-')
                 ) != -1
             ) {
               if (
@@ -129,10 +129,10 @@ function Most({ mostSearched, height, id }) {
     if (data.userLocation.geometry.coordinates.length === 2) {
       let temp = [];
       temp.push({
-        type: "Feature",
+        type: 'Feature',
         properties: {
           id: 0,
-          name: "Vị trí của tôi",
+          name: 'Vị trí của tôi',
         },
         geometry: {
           coordinates: data.userLocation.geometry.coordinates,
@@ -145,10 +145,10 @@ function Most({ mostSearched, height, id }) {
       let t = mostSearched.find((a) => a.properties.id === 0);
       if (!t) {
         mostSearched.push({
-          type: "Feature",
+          type: 'Feature',
           properties: {
             id: 0,
-            name: "Vị trí của tôi",
+            name: 'Vị trí của tôi',
           },
           geometry: {
             coordinates: data.userLocation.geometry.coordinates,
@@ -171,11 +171,11 @@ function Most({ mostSearched, height, id }) {
               <div
                 key={index}
                 onClick={() => {
-                  fetch("./admin/updateQuantity", {
+                  fetch('./admin/updateQuantity', {
                     headers: {
-                      "Content-Type": "application/json",
+                      'Content-Type': 'application/json',
                     },
-                    method: "POST",
+                    method: 'POST',
                     body: JSON.stringify({
                       arr: [
                         {
@@ -188,15 +188,15 @@ function Most({ mostSearched, height, id }) {
                     .then((res) => res.json())
                     .then((result) => {})
                     .catch((err) => console.log(err));
-                  if (id === "start") {
+                  if (id === 'start') {
                     data.setStart(a);
                     if (data.prevIdStart.length === 0) {
                       if (document.getElementById(a.properties.id)) {
                         document.getElementById(
                           a.properties.id
-                        ).style.animation = "click .5s infinite";
+                        ).style.animation = 'click .5s infinite';
                         document.getElementById(a.properties.id).style.color =
-                          "red";
+                          'red';
                         let temp = data.prevIdStart;
                         temp.push(a.properties.id);
                         data.setPrevIdStart(temp);
@@ -210,17 +210,17 @@ function Most({ mostSearched, height, id }) {
                       ) {
                         document.getElementById(
                           data.prevIdStart[data.prevIdStart.length - 1]
-                        ).style.animation = "none";
+                        ).style.animation = 'none';
                         document.getElementById(
                           data.prevIdStart[data.prevIdStart.length - 1]
-                        ).style.color = "inherit";
+                        ).style.color = 'inherit';
                       }
                       if (document.getElementById(a.properties.id)) {
                         document.getElementById(
                           a.properties.id
-                        ).style.animation = "click .5s infinite";
+                        ).style.animation = 'click .5s infinite';
                         document.getElementById(a.properties.id).style.color =
-                          "red";
+                          'red';
                         let temp = data.prevIdStart;
                         temp.push(a.properties.id);
                         data.setPrevIdStart(temp);
@@ -235,9 +235,9 @@ function Most({ mostSearched, height, id }) {
                       if (document.getElementById(a.properties.id)) {
                         document.getElementById(
                           a.properties.id
-                        ).style.animation = "click .5s infinite";
+                        ).style.animation = 'click .5s infinite';
                         document.getElementById(a.properties.id).style.color =
-                          "red";
+                          'red';
                         let temp = data.prevIdEnd;
                         temp.push(a.properties.id);
                         data.setPrevIdEnd(temp);
@@ -250,17 +250,17 @@ function Most({ mostSearched, height, id }) {
                       ) {
                         document.getElementById(
                           data.prevIdEnd[data.prevIdEnd.length - 1]
-                        ).style.animation = "none";
+                        ).style.animation = 'none';
                         document.getElementById(
                           data.prevIdEnd[data.prevIdEnd.length - 1]
-                        ).style.color = "inherit";
+                        ).style.color = 'inherit';
                       }
                       if (document.getElementById(a.properties.id)) {
                         document.getElementById(
                           a.properties.id
-                        ).style.animation = "click .5s infinite";
+                        ).style.animation = 'click .5s infinite';
                         document.getElementById(a.properties.id).style.color =
-                          "red";
+                          'red';
                         let temp = data.prevIdEnd;
                         temp.push(a.properties.id);
                         data.setPrevIdEnd(temp);
@@ -277,7 +277,7 @@ function Most({ mostSearched, height, id }) {
                   <FontAwesomeIcon className="icon" icon={faClock} />
                 </div>
                 <li className="most__list__item">
-                  {typeof a === "string" ? a : a.properties.name}
+                  {typeof a === 'string' ? a : a.properties.name}
                 </li>
               </div>
             );
